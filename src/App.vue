@@ -1,32 +1,275 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+  <header>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar</title>
+    <link rel="stylesheet" href="style.css">
+    <navbar class="navbar-container">
+        <div class="logo-container">
+            <a href="index.html">LOGO</a>
+        </div>
+
+        <div class="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <ul class="nav-items">
+            <li class="nav-link"><a href="#">Главная</a></li>
+            <li class="nav-link"><a href="#">Акции</a></li>
+            <li class="nav-link"><a href="#">Товары</a></li>
+            <li class="nav-link"><a href="#">О нас</a></li>
+            <div class="login-register">
+                <a href="#" class="button">Войти</a>
+                <a href="#" class="button">Зарегистрироваться</a>
+            </div>
+        </ul>
+    </navbar>
+    <div class="main">
+      <div class="home">
+        <input v-model="searchProduct" type="text" placeholder="Search Product">
+        <ul class="product">
+          <li v-for="(product, index) in filteredProducts" :key="index">{{ product }}</li>
+        </ul>
+      </div>
+    </div>
+  </header>
     <router-view/>
   </div>
 </template>
+<script>
+import { onMounted } from 'vue'
+
+
+export default {
+  data() {
+    return {
+      title: 'Найти товар' ,
+      searchProduct: '',
+      products: ['computers', 'laptops', 'phone numberы', 'accessories']
+    }
+  },
+  computed: {
+    filteredProducts() {
+      return this.products.filter(product => {
+        return product.indexOf(this.searchProduct) != -1
+      })
+    }
+  }
+}
+
+</script>
+
+
+
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif
 }
 
-nav {
-  padding: 30px;
+body {
+    background: rgba(255, 255, 255, 0.946);
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+a {
+    text-decoration: none;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 70px;
+    align-items: center;
+    background: rgba(61, 61, 61, 0.966);
+    color: rgb(0, 0, 0);
+    position:fixed;
+    top:0;
+    width: 100%;
 }
+
+.navbar-container .logo-container a {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    font-family: 'Kanit', sans-serif;
+}
+
+.navbar-container .nav-items {
+    display: flex;
+    list-style-type: none;
+    gap: 3rem;
+    align-items: center;
+}
+
+.navbar-container .nav-items .nav-link a {
+    color: #fff;
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.navbar-container .nav-items .nav-link:after {
+    display: block;
+    content: "";
+    border-top: 2px solid rgb(77, 77, 77);
+    transform: scaleX(0);
+    -webkit-transform: scaleX(0);
+    -moz-transform: scaleX(0);
+    -ms-transform: scaleX(0);
+    -o-transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+    -webkit-transition: transform 250ms ease-in-out;
+    -moz-transition: transform 250ms ease-in-out;
+    -ms-transition: transform 250ms ease-in-out;
+    -o-transition: transform 250ms ease-in-out;
+}
+
+.navbar-container .nav-items .nav-link:hover:after {
+    transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+    -moz-transform: scaleX(1);
+    -ms-transform: scaleX(1);
+    -o-transform: scaleX(1);
+}
+
+.navbar-container .nav-items .nav-link a:hover {
+    filter: brightness(80%);
+    -webkit-filter: brightness(80%);
+}
+
+.navbar-container .nav-items .login-register {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.navbar-container .nav-items .login-register .button {
+    color: #fff;
+    border: 2px solid rgb(68, 68, 68);
+    padding: 5px 20px;
+    border-radius:3px ;
+    -webkit-border-radius:3px ;
+    -moz-border-radius:3px ;
+    -ms-border-radius:3px ;
+    -o-border-radius:3px;
+    text-transform: uppercase;
+    transition: all ease-in 0.3s;
+    -webkit-transition: all ease-in 0.3s;
+    -moz-transition: all ease-in 0.3s;
+    -ms-transition: all ease-in 0.3s;
+    -o-transition: all ease-in 0.3s;
+}
+
+.navbar-container .nav-items .login-register .button:hover {
+    background: rgb(104, 104, 104);
+}
+
+/* Now lets style the content of this design */
+
+.main {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    font-size: 3rem;
+    padding: 1rem;
+
+}
+.product {
+  text-align: left;
+  font-size: 30px;
+  margin-bottom: 50px;
+}
+
+/* Adjustment for ipad screens */
+
+@media(max-width: 1000px) {
+    .navbar-container {
+        padding: 0 1rem;
+    }
+
+    .navbar-container .nav-items {
+        gap: 0.1rem;
+    }
+
+    .navbar-container .nav-items .nav-link a, .navbar-container .nav-items .login-register .button {
+        font-size: 0.9rem;
+    }
+
+}
+
+/* adjustment for mobile phones */
+
+@media(max-width: 700px) {
+    .navbar-container .nav-items {
+        flex-direction: column;
+        position: fixed;
+        top: 70px;
+        width: 100vw;
+        background: rgb(35, 29, 53);
+        padding: 1rem 0;
+        height: 100vh;
+        z-index: 99;
+        right: -100%;
+        transition: 0.2s ease-in;
+        -webkit-transition: 0.2s ease-in;
+        -moz-transition: 0.2s ease-in;
+        -ms-transition: 0.2s ease-in;
+        -o-transition: 0.2s ease-in;
+}
+
+.bars {
+    height: auto;
+    width: 22px;
+    cursor: pointer;
+}
+
+.bars .bar {
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    margin: 4px;
+}
+
+.navbar-container .nav-items {
+    gap: 3rem;
+}
+
+.navbar-container .nav-items .login-register {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    width: 50%;
+}
+
+.navbar-container .nav-items .login-register .button {
+    padding: 1rem 0;
+}
+
+.main {
+    font-size: 2rem;
+}
+}
+
+/* The active class below will be used to toggle the nav -items in JS */
+
+.navbar-container .nav-items.active {
+    right: 0;
+}
+
 </style>
